@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 public class UserInterface {
 
+    private final LocationController locationController;
+
+    public UserInterface(LocationController locationController) { this.locationController = locationController; }
+
     public void run() {
         System.out.println("Aplikacja zostala uruchomiona.\n");
 
@@ -28,7 +32,7 @@ public class UserInterface {
                     displayLocations();
                     break;
                 case 3:
-                    downloadWeatherValues();
+                    getAllLocations();
                     break;
                 case 0:
                     return;
@@ -38,7 +42,7 @@ public class UserInterface {
         }
     }
 
-    private void downloadWeatherValues() {
+    private void getAllLocations() {
 
     }
 
@@ -48,20 +52,21 @@ public class UserInterface {
     private void addLocation() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nazwa miasta: ");
-        String location = scanner.nextLine();
+        String city = scanner.nextLine();
         System.out.println("Dlugosc geograficzna: ");
         double longitude = scanner.nextDouble();
         System.out.println("Szerokosc geograficzna: ");
         double latitude = scanner.nextDouble();
+        scanner.nextLine();
         System.out.println("Region: ");
         String region = scanner.nextLine();
         System.out.println("Nazwa kraju: ");
         String country = scanner.nextLine();
 
-        String requestBody = String.format("{\"location\":\"%s\",\"longitude\":\"%d\"," +
-                "\"latitude\":\"%d\",\"region\":\"%s\",\"country\":\"%s\"}");
+        String requestBody = String.format("{\"city\":\"%s\",\"longitude\":\"%f\"," +
+                "\"latitude\":\"%f\",\"region\":\"%s\",\"country\":\"%s\"}", city, longitude, latitude, region, country);
         System.out.println("Wysylany http request: " + requestBody);
-        String responseBody = LocationController.createLocation(requestBody);
+        String responseBody = locationController.addLocation(requestBody);
         System.out.println("Odebrany http response: " + responseBody);
     }
 }
