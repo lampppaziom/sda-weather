@@ -43,14 +43,9 @@ public class LocationService {
             HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             String responseBody = httpResponse.body();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            TimeDTO timeDTO = objectMapper.readValue(responseBody, TimeDTO.class);
 
-            String currentDateTime = timeDTO.getCurrentDateTime();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm'Z'");
-            LocalDateTime localDateTime = LocalDateTime.parse(currentDateTime, dateTimeFormatter);
-            Instant now = localDateTime.toInstant(ZoneOffset.UTC);
 
-            location.setCreationDate(now);
         } catch (Exception e) {
             throw new RuntimeException("Time issue: " + e.getMessage());
         }

@@ -20,7 +20,6 @@ class Location {
     private Double latitude;
     private String region;
     private String country;
-    private Instant creationDate;
 
     public Location(String city, Double longitude,
                     Double latitude, String region, String country) {
